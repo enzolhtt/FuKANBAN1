@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Projets;
+use App\Entity\Taches;
 use App\Form\ProjetsType;
 use App\Repository\ProjetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Slugger;
+use App\Repository\TachesRepository;
 
 #[Route('/projets')]
 class ProjetsController extends AbstractController
@@ -38,6 +41,8 @@ class ProjetsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = new Slugger();
+            $projet->setSlug($slug->slugify($projet->getNomProjet()));
             $entityManager->persist($projet);
             $entityManager->flush();
 
@@ -47,6 +52,15 @@ class ProjetsController extends AbstractController
         return $this->render('projets/new.html.twig', [
             'projet' => $projet,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{slug}', name: 'app_projets_kanban', methods: ['GET'])]
+    public function kanban(Projets $projet, TachesRepository $tacherepository): Response
+    {
+        return $this->render('projets/kanban.html.twig', [
+            'projet' => $projet,
+            'taches' =>$tacherepository->findAll(),
         ]);
     }
 

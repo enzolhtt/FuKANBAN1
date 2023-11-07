@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjetsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,11 +25,22 @@ class Projets
     #[ORM\ManyToOne(inversedBy: 'projets')]
     private ?Utilisateurs $Createur = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $DateCreation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $DateModification = null;
+
+    #[ORM\OneToMany(mappedBy: 'Projet', targetEntity: Taches::class)]
+    private Collection $taches;
+
+    public function __construct()
+    {
+        $this->taches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -94,7 +107,50 @@ class Projets
         return $this;
     }
 
+    public function getslug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     public function __ToString(){
         return $this->NomProjet;
     }
+
+    /**
+     * @return Collection<int, Taches>
+     */
+    public function getTaches(): Collection
+    {
+        return $this->taches;
+    }
+
+    public function addTach(Taches $tach): static
+    {
+        if (!$this->taches->contains($tach)) {
+            $this->taches->add($tach);
+            $tach->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTach(Taches $tach): static
+    {
+        if ($this->taches->removeElement($tach)) {
+            // set the owning side to null (unless already changed)
+            if ($tach->getProjet() === $this) {
+                $tach->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

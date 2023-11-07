@@ -5,11 +5,15 @@
 {% block body %}
     <h1>Choisi ton projet</h1>
     <ol style="--length: 100" role="list">
+    {% set user = app.user.username %}
     {% for projet in projets %}
-        <li style="--i: 100"><a href="{{path('app_login')}}">
-            <h3>{{projet.NomProjet}}</h3>
-            <p>{{projet.DescriptionProjet}}</p></a>
-        </li>
+        {% if user == projet.createur %}
+            <li style="--i: 100"><a href="{{path('app_projets_kanban', {'slug': projet.slug})}}">
+                <h3>{{projet.NomProjet}}</h3>
+                <p>{{projet.DescriptionProjet}}</p></a>
+            </li>
+        {% endif %}
     {% endfor %}
     </ol>
+    <button><a href="{{path('app_projets_new')}}">Créer un nouveau projet</a></button>
 {% endblock %}

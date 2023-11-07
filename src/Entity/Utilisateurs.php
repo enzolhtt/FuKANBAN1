@@ -37,9 +37,13 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'Createur', targetEntity: Projets::class)]
     private Collection $projets;
 
+    #[ORM\OneToMany(mappedBy: 'Utilisateur', targetEntity: Taches::class)]
+    private Collection $taches;
+
     public function __construct()
     {
         $this->projets = new ArrayCollection();
+        $this->taches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,5 +160,35 @@ class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __ToString(){
         return $this->username;
+    }
+
+    /**
+     * @return Collection<int, Taches>
+     */
+    public function getTaches(): Collection
+    {
+        return $this->taches;
+    }
+
+    public function addTach(Taches $tach): static
+    {
+        if (!$this->taches->contains($tach)) {
+            $this->taches->add($tach);
+            $tach->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTach(Taches $tach): static
+    {
+        if ($this->taches->removeElement($tach)) {
+            // set the owning side to null (unless already changed)
+            if ($tach->getUtilisateur() === $this) {
+                $tach->setUtilisateur(null);
+            }
+        }
+
+        return $this;
     }
 }

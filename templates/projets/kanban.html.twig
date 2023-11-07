@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kanban{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{asset('css/Kanban.css')}}">
+    <script src="https://kit.fontawesome.com/db35c32846.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_projets_choix') }}">Revenir à la liste de projets</a>
+    <!-- Simple MDL Progress Bar -->
+<div class="kanban__title">
+      <h1><i class="fa-solid fa-briefcase"></i> {{projet.NomProjet}} </h1></div>
+<div class="dd">
+  <ol class="kanban To-do">
+    <div class="kanban__title">
+      <h2><i class="fa-solid fa-triangle-exclamation"></i></i> A faire</h2></div>
+    {% for tache in taches %}
+    {% if tache.statut == "A faire" %}
+   <li class="dd-item" data-id="1">
+      <h3 class="title dd-handle" >{{tache.TitreTache}}</h3>
+        <div class="text"> {{tache.DescriptionTache}} </div>
+        <div class="text" >Date de Création: {{ tache.DateCreation ? tache.DateCreation|date('d-m-Y') : '' }}</div>
+        <div class="text" >Date d'échéance: {{tache.DateEcheance ? tache.DateEcheance|date('d-m-Y') : '' }}</div>
+        <div class="actions"></div>
+        <a href="{{path('app_taches_edit', {'id': tache.id})}}">Modifier</a>
+    </li>
+     {% endif %}
+     {% endfor %}
+  </ol>
+  <ol class="kanban progress">
+    <h2><i class="fa-solid fa-bars-progress"></i> En cours</h2>
+    {% for tache in taches %}
+    {% if tache.statut == "En cours" %}
+      <li class="dd-item" data-id="5">
+      <h3 class="title dd-handle">{{tache.TitreTache}}</h3>
+        <div class="text" >{{tache.DescriptionTache}}</div>
+        <div class="text" >Date de Création: {{ tache.DateCreation ? tache.DateCreation|date('d-m-Y') : '' }}</div>
+        <div class="text" >Date d'échéance: {{tache.DateEcheance ? tache.DateEcheance|date('d-m-Y') : '' }}</div>
+        <div class="actions"></div>
+        <a href="{{path('app_taches_edit', {'id': tache.id})}}">Modifier</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+  <ol class="kanban  Done">
+  <h2><i class="fa-solid fa-thumbs-up"></i>   <i class="fa-solid fa-thumbs-down"></i> A tester</h2>
+    {% for tache in taches %}
+    {% if tache.statut == "A tester" %}
+      <li class="dd-item" data-id="5">
+      <h3 class="title dd-handle"> {{tache.TitreTache}}</h3>
+        <div class="text" >{{tache.DescriptionTache}}</div>
+        <div class="text" >Date de Création: {{ tache.DateCreation ? tache.DateCreation|date('d-m-Y') : '' }}</div>
+        <div class="text" >Date d'échéance: {{tache.DateEcheance ? tache.DateEcheance|date('d-m-Y') : '' }}</div>
+        <div class="actions"></div>
+        <a href="{{path('app_taches_edit', {'id': tache.id})}}">Modifier</a>
+    </li>
+    
+    {% endif %}
+    {% endfor %}
+  </ol>
+  <ol class="kanban Gone">
+    <h2><i class="fa-solid fa-circle-check"></i> Fini</h2>
+    {% for tache in taches %}
+    {% if tache.statut == "Fini" %}
+     <li class="dd-item" data-id="5">
+      <h3 class="title dd-handle">{{tache.TitreTache}}</h3>
+        <div class="text" >{{tache.DescriptionTache}}</div>
+        <div class="text" >Date de Création: {{ tache.DateCreation ? tache.DateCreation|date('d-m-Y') : '' }}</div>
+        <div class="text" >Date d'échéance: {{tache.DateEcheance ? tache.DateEcheance|date('d-m-Y') : '' }}</div>
+        <div class="actions"></div>
+        <a href="{{path('app_taches_edit', {'id': tache.id})}}">Modifier</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+</div>
+    
+{% endblock %}
