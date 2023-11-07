@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{asset('css/LoginStyle.css')}}">
+{% endblock %}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form class="container" action="{{ path('app_login') }}" method="post">
+        <div class="login-container">
+            <div class="circle circle-one"></div>
+            <div class="form-container">
+                <img src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png" alt="illustration" class="illustration" />
+                <h1 class="opacity">LOGIN</h1>
+                <form>
+                    <input type="text" placeholder="USERNAME" id="username" name="_username"/>
+                    <input type="password" placeholder="PASSWORD" id="password" name="_password"/>
+                    <button class="opacity" type="submit">SUBMIT</button>
+                </form>
+                <div class="register-forget opacity">
+                    <a href="{{path('app_register')}}">REGISTER</a>
+                </div>
+            </div>
+            <div class="circle circle-two"></div>
+        </div>
+        <div class="theme-btn-container"></div>
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script src="{{asset('js/script.js')}}"></script>
+{% endblock %}

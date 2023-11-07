@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Select Projet{% endblock %}
+{% block style %} <link rel="stylesheet" href="{{asset('css/SelectProjet.css')}}"> {% endblock %}
+{% block body %}
+    <h1>Choisi ton projet</h1>
+    <ol style="--length: 100" role="list">
+    {% for projet in projets %}
+        <li style="--i: 100"><a href="{{path('app_login')}}">
+            <h3>{{projet.NomProjet}}</h3>
+            <p>{{projet.DescriptionProjet}}</p></a>
+        </li>
+    {% endfor %}
+    </ol>
+{% endblock %}
