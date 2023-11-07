@@ -46,7 +46,7 @@ class ProjetsController extends AbstractController
             $entityManager->persist($projet);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_projets_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_projets_choix', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('projets/new.html.twig', [

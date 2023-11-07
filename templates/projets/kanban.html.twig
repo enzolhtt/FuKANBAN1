@@ -11,11 +11,14 @@
     <a href="{{ path('app_projets_choix') }}">Revenir à la liste de projets</a>
     <!-- Simple MDL Progress Bar -->
 <div class="kanban__title">
-      <h1><i class="fa-solid fa-briefcase"></i> {{projet.NomProjet}} </h1></div>
+      <h1><i class="fa-solid fa-briefcase"></i> {{projet.NomProjet}} </h1>
+</div>
 <div class="dd">
   <ol class="kanban To-do">
     <div class="kanban__title">
-      <h2><i class="fa-solid fa-triangle-exclamation"></i></i> A faire</h2></div>
+      <h2><i class="fa-solid fa-triangle-exclamation"></i></i> A faire <a href="{{path('app_taches_new')}}"><button class="button-plus"><i class="fa-solid fa-plus"></i></button></a></h2>
+      <div class="actions"></div>
+    </div>
     {% for tache in taches %}
     {% if tache.statut == "A faire" %}
    <li class="dd-item" data-id="1">
@@ -31,6 +34,7 @@
   </ol>
   <ol class="kanban progress">
     <h2><i class="fa-solid fa-bars-progress"></i> En cours</h2>
+    <div class="actions"></div>
     {% for tache in taches %}
     {% if tache.statut == "En cours" %}
       <li class="dd-item" data-id="5">
@@ -46,6 +50,7 @@
   </ol>
   <ol class="kanban  Done">
   <h2><i class="fa-solid fa-thumbs-up"></i>   <i class="fa-solid fa-thumbs-down"></i> A tester</h2>
+  <div class="actions"></div>
     {% for tache in taches %}
     {% if tache.statut == "A tester" %}
       <li class="dd-item" data-id="5">
@@ -62,6 +67,7 @@
   </ol>
   <ol class="kanban Gone">
     <h2><i class="fa-solid fa-circle-check"></i> Fini</h2>
+    <div class="actions"></div>
     {% for tache in taches %}
     {% if tache.statut == "Fini" %}
      <li class="dd-item" data-id="5">

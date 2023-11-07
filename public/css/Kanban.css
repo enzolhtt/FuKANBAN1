@@ -9,10 +9,14 @@ a{
     text-decoration: none;
 }
 
+.button-plus
+{
+  margin-left: 80px;
+}
+
   h1 {
-    position: absolute;
-    left: 16px;
-    top: 16px;
+
+    text-align: center;
   }
   
   menu {
@@ -37,6 +41,7 @@ a{
     margin: 0 auto;
     display: block;
     vertical-align: top;
+    text-align: center;
   }
   
   ol {
